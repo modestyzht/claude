@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI工具小店-探索分享目前最前沿的AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            min-height: calc(100vh - 40px);
+        }
+
+        /* 左侧信息栏 */
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            height: fit-content;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar:hover {
+            transform: translateY(-5px);
+        }
+
+        .profile {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 32px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .profile h2 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 20px;
+        }
+
+        .profile p {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .info-section {
+            margin-bottom: 25px;
+        }
+
+        .info-section h3 {
+            color: #2c3e50;
+            font-size: 16px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .info-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .info-item i {
+            margin-right: 10px;
+            width: 16px;
+            color: #667eea;
+        }
+
+        .info-item a {
+            color: #34495e;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .info-item a:hover {
+            color: #667eea;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* 主要内容区域 */
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .article-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .article-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .article-meta span {
+            margin: 0 15px;
+        }
+
+        .article-excerpt {
+            font-size: 18px;
+            color: #555;
+            font-style: italic;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .article-content {
+            margin-top: 30px;
+        }
+
+        .article-content h2 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin: 30px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ecf0f1;
+        }
+
+        .article-content h3 {
+            color: #34495e;
+            font-size: 1.4em;
+            margin: 25px 0 12px;
+        }
+
+        .article-content p {
+            margin-bottom: 20px;
+            text-align: justify;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .article-content ul, .article-content ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        .article-content li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .article-content code {
+            background: #f1f2f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #e74c3c;
+        }
+
+        .article-content pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        .article-content blockquote {
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            margin: 20px 0;
+            background: #f8f9fa;
+            font-style: italic;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* 图片上传区域 */
+        .image-upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 40px 20px;
+            text-align: center;
+            margin: 30px 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .image-upload-area:hover {
+            border-color: #764ba2;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .image-upload-area.dragover {
+            border-color: #764ba2;
+            background: rgba(102, 126, 234, 0.1);
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            color: #667eea;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .upload-hint {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        #imageInput {
+            display: none;
+        }
+
+        /* 图片展示区域 */
+        .uploaded-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .image-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .image-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .image-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .image-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(231, 76, 60, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .image-delete:hover {
+            background: rgba(231, 76, 60, 1);
+        }
+
+        /* 分享按钮 */
+        .share-buttons {
+            margin-top: 40px;
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #ecf0f1;
+        }
+
+        .share-title {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .share-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 24px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .share-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .share-button i {
+            margin-right: 8px;
+        }
+
+        .share-weibo { background: #e6162d; }
+        .share-wechat { background: #1aad19; }
+        .share-qq { background: #12b7f5; }
+        .share-copy { background: #667eea; }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 10px;
+                gap: 20px;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .article-title {
+                font-size: 1.8em;
+            }
+
+            .uploaded-images {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 左侧信息栏 -->
+        <aside class="sidebar">
+            <div class="profile">
+                <div class="profile-avatar">AI</div>
+                <h2>西北驴哥</h2>
+                <p>AI工程师兼职小店店小二</p>
+            </div>
+
+<div class="info-section">
+    <h3>联系方式</h3>
+    <div class="info-item">
+        <i>📧</i>
+        <p>微信号：Slow_Life10086</p>
+    </div>
+    <div class="info-item">
+        <i>💕</i>
+        <a href="https://www.xiaohongshu.com/shop/685aabea26bb9c00156d523a?instation_link=xhsdiscover%3A%2F%2Fshop_detail%3Fseller_id%3D685aabea26bb9c00156d523a%26general_param%3D%257B%2522source%2522%3A%2522share%2522%257D%26source%3Dshare&page_instance=3957&xhsshare=WeixinSession&appuid=6518f3ee000000002402e7fc&apptime=1754901043&share_id=e06aa234098046e2b7c918172eafa507&share_channel=wechat" target="_blank">小红书店铺</a>
+    </div>
+    <div class="info-item">
+        <i>✨</i>
+        <a href="https://m.tb.cn/h.hrkLazt?tk=ITZz4iSCzwL" target="_blank">咸鱼店铺</a>
+    </div>
+</div>
+
+
+            <!-- <div class="info-section">
+                <h3>🏷️ 文章标签</h3>
+                <div class="tags">
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">React</span>
+                    <span class="tag">CSS3</span>
+                    <span class="tag">HTML5</span>
+                    <span class="tag">前端工程化</span>
+                </div>
+            </div> -->
+
+
+        </aside>
+
+        <!-- 主要内容区域 -->
+  <main class="main-content">
+    <header class="article-header">
+        <h1 class="article-title">Claude 系统使用教程（实时更新）</h1>
+        <!-- <div class="article-meta">
+            <span>📅 发布时间：2025年8月11日</span>
+            <span>⏱️ 阅读时长：8分钟</span>
+            <span>👀 阅读量：1,234</span>
+        </div> -->
+        <div class="article-excerpt">
+            本教程将详细介绍如何使用Claude系统，并解释为什么选择我们提供的激活码方案。我们将为你展示购买、激活和使用Claude系统的全过程。
+        </div>
+    </header>
+
+    <article class="article-content">
+        <h2>🚀 前言</h2>
+        <p>随着AI技术的迅速发展，Claude已经成为一款强大的AI工具。为了让用户更好地体验Claude系统，本文将从基础到实践，详细介绍如何注册、购买和使用Claude激活码。</p>
+
+        <h2>💡 如何使用 Claude 系统？</h2>
+        <h3>1. 使用前准备</h3>
+        <p>请使用以下方法进行访问：</p>
+        <ul>
+            <li><strong>推荐浏览器</strong>：使用谷歌浏览器（Google Chrome）或其他国外浏览器，如 Safari、Edge 等，无需使用梯子。</li>
+            <li><strong>注册地址</strong>：请访问 <a href="https://ai.zhihuiai.top/pastel/#/register" target="_blank">https://ai.zhihuiai.top/pastel/#/register</a>，并在浏览器中打开，支持手机和电脑注册。</li>
+        </ul>
+
+        <h3>2. 注册并登录</h3>
+        <p>在完成注册后，登录页面链接为：[https://ai.zhihuiai.top](https://ai.zhihuiai.top)。登录后，输入您的Claude激活码即可开始使用。</p>
+
+
+
+
+
+        <h2>💳 为什么选择我们？</h2>
+        <ul>
+            <li><strong>价格优惠：</strong>我们提供的Claude激活码比官网便宜不到一半，性价比高。</li>
+            <li><strong>无需特殊网络：</strong>国内用户无需使用梯子，直接访问即可，极大提高了便捷性。</li>
+            <li><strong>支持所有模型：</strong>我们支持Claude官网所有模型的使用，包括Opus 4.1，功能齐全。</li>
+            <li><strong>避免封号风险：</strong>我们系统稳定，不会出现封号问题，避免了不必要的损失。</li>
+            <li><strong>30天售后保障：</strong>购买后我们提供完整的售后服务，确保您的账户在使用期间不出问题。</li>
+            <li><strong>高续费率：</strong>次月续费率高达95%，使用体验稳定。</li>
+            <li><strong>实时更新：</strong>我们系统会实时更新官网的最新模型，让您始终体验最强大的功能。</li>
+            <li><strong>更多使用次数：</strong>相比官网独立账号，我们的使用次数更高，每3小时可以使用最多50次。</li>
+        </ul>
+
+        <!-- <h2>🔧 开发工具与工作流</h2>
+        <p>在Claude系统的使用过程中，您会接触到一些常见的开发工具和最佳实践：</p>
+        <ul>
+            <li><strong>包管理器</strong>：npm、yarn、pnpm</li>
+            <li><strong>构建工具</strong>：Webpack、Vite、Rollup</li>
+            <li><strong>代码质量</strong>：ESLint、Prettier、TypeScript</li>
+            <li><strong>版本控制</strong>：Git、GitHub/GitLab</li>
+        </ul> -->
+
+        <!-- <h2>📱 如何上传图片</h2>
+        <p>如果需要在文章中添加图片，下面的区域支持拖拽上传图片：</p>
+        <div class="image-upload-area" onclick="document.getElementById('imageInput').click()">
+            <div class="upload-icon">📷</div>
+            <div class="upload-text">点击或拖拽图片到此处上传</div>
+            <div class="upload-hint">支持 JPG、PNG、GIF 格式，单张图片不超过 5MB</div>
+            <input type="file" id="imageInput" accept="image/*" multiple>
+        </div>
+
+        <div id="uploadedImages" class="uploaded-images"></div> -->
+
+        <h2>🎯 总结</h2>
+        <p>Claude系统是一款功能强大的AI工具，能够帮助用户快速高效地完成各种任务。通过合理选择我们的激活码方案，您可以以更低的价格体验到Claude的全部功能。如果您有任何问题或需要帮助，欢迎随时联系我们的客服团队，我们将为您提供全程支持。</p>
+    </article>
+
+    <!-- 分享按钮 -->
+    <div class="share-buttons">
+        <h3 class="share-title">分享这篇文章</h3>
+        <a href="#" class="share-button share-weibo">
+            <i>📱</i> 分享到微博
+        </a>
+        <a href="#" class="share-button share-wechat">
+            <i>💬</i> 分享到微信
+        </a>
+        <a href="#" class="share-button share-qq">
+            <i>🐧</i> 分享到QQ
+        </a>
+        <button class="share-button share-copy" onclick="copyLink()">
+            <i>🔗</i> 复制链接
+        </button>
+    </div>
+</main>
+
+
+    <script>
+        // 图片上传功能
+        const imageInput = document.getElementById('imageInput');
+        const uploadArea = document.querySelector('.image-upload-area');
+        const uploadedImagesContainer = document.getElementById('uploadedImages');
+
+        // 存储上传的图片
+        let uploadedImages = [];
+
+        // 点击上传
+        imageInput.addEventListener('change', handleImageUpload);
+
+        // 拖拽上传
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        function handleImageUpload(e) {
+            const files = e.target.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    if (file.size > 5 * 1024 * 1024) {
+                        alert('图片大小不能超过5MB');
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const imageData = {
+                            id: Date.now() + Math.random(),
+                            src: e.target.result,
+                            name: file.name
+                        };
+                        uploadedImages.push(imageData);
+                        displayImage(imageData);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('请选择图片文件');
+                }
+            });
+        }
+
+        function displayImage(imageData) {
+            const imageItem = document.createElement('div');
+            imageItem.className = 'image-item';
+            imageItem.innerHTML = `
+                <img src="${imageData.src}" alt="${imageData.name}">
+                <button class="image-delete" onclick="deleteImage('${imageData.id}')" title="删除图片">×</button>
+            `;
+            uploadedImagesContainer.appendChild(imageItem);
+        }
+
+        function deleteImage(imageId) {
+            uploadedImages = uploadedImages.filter(img => img.id != imageId);
+            refreshImageDisplay();
+        }
+
+        function refreshImageDisplay() {
+            uploadedImagesContainer.innerHTML = '';
+            uploadedImages.forEach(displayImage);
+        }
+
+        // 复制链接功能
+        function copyLink() {
+            const url = window.location.href;
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('链接已复制到剪贴板！');
+                });
+            } else {
+                // 兼容旧浏览器
+                const textArea = document.createElement('textarea');
+                textArea.value = url;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('链接已复制到剪贴板！');
+            }
+        }
+
+        // 分享功能（示例）
+        document.querySelector('.share-weibo').addEventListener('click', (e) => {
+            e.preventDefault();
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent(document.title);
+            window.open(`https://service.weibo.com/share/share.php?url=${url}&title=${title}`);
+        });
+
+        // 添加一些页面交互效果
+        document.addEventListener('DOMContentLoaded', () => {
+            // 平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // 代码块高亮效果
+            document.querySelectorAll('pre code').forEach(block => {
+                block.style.animation = 'fadeIn 0.5s ease';
+            });
+
+            // 添加滚动效果
+            let lastScrollTop = 0;
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const sidebar = document.querySelector('.sidebar');
+                
+                if (scrollTop > lastScrollTop) {
+                    // 向下滚动
+                    sidebar.style.transform = 'translateY(-10px)';
+                } else {
+                    // 向上滚动
+                    sidebar.style.transform = 'translateY(0)';
+                }
+                lastScrollTop = scrollTop;
+            });
+        });
+    </script>
+</body>
+</html>
